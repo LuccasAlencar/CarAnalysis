@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --black: #161616;
+    --white: rgb(247, 247, 247);
+    --white-hover: rgb(214, 214, 214);
+    --blue: rgb(18, 106, 221);
+    --blue-white-2:  #0E52AB;
+    --blue-white-3: #37485E;
+    --blue-white-4: #082D5E;
+    --blue-black-2:  #0C4691;
+    --blue-black-3: #0A3978;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+/*Header+NavBar*/
+header{
+    background-color: var(--blue);
+    display: flex;
+    height: 10dvh;
+    justify-content: center;
+    align-items: center;
+}
+nav{
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ItemsNav{
+    display: flex;
+}
+.Logo{
+    padding-top: .5rem;
+}
+.ItemsNav ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;   
+}
+.ItemsNav ul li a{
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--white);
+    padding-right: 1.2rem;
+}
+.ItemsNav ul li a:hover{
+    color: var(--white-hover)
+}
+.Login{
+    width: 4dvw;
+    border-radius: .2rem;
+    border: none;
+    background-color: var(--white);
+    color: var(--blue);
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+.Login:hover{
+    background-color: var(--white-hover);
+    color: var(--blue-white-2);
+}
+/*Section 1*/
+.Section-1 {
+    position: relative;
+    width: 100dvw;
+    height: 90dvh;
+    overflow: hidden;
+}
+
+.Section-1 .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8); 
+    background: linear-gradient(rgba(226, 226, 226, 0.7),rgba(255, 255, 255, .2), rgba(18, 106, 221, 0.1), rgba(0, 0, 0, 0.1));
+    z-index: 1; 
+}
+  
+.LogoSection1 {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    z-index: 2; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80dvw;
+    height: 40dvh; 
+}

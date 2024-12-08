@@ -4,7 +4,7 @@
     --black: #161616;
     --white: rgb(247, 247, 247);
     --white-hover: rgb(214, 214, 214);
-    --blue: rgb(18, 106, 221);
+    --blue: #126add;
     --blue-white-2:  #0E52AB;
     --blue-white-3: #37485E;
     --blue-white-4: #082D5E;
@@ -19,7 +19,7 @@
 }
 /*Header+NavBar*/
 header{
-    background-color: var(--blue);
+    background-color: #137ED0;
     display: flex;
     height: 10dvh;
     justify-content: center;
@@ -66,14 +66,18 @@ nav{
     background-color: var(--white-hover);
     color: var(--blue-white-2);
 }
-/*Section 1*/
+.modelo{
+    object-fit: fill;
+    background-color: #137ED0;
+    padding-top: 8vh;
+}
+/*Section 1
 .Section-1 {
     position: relative;
     width: 100dvw;
     height: 90dvh;
     overflow: hidden;
 }
-
 .Section-1 .overlay {
     position: absolute;
     top: 0;
@@ -82,10 +86,9 @@ nav{
     height: 100%;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8); 
-    background: linear-gradient(rgba(226, 226, 226, 0.7),rgba(255, 255, 255, .2), rgba(18, 106, 221, 0.1), rgba(0, 0, 0, 0.1));
+    background: linear-gradient(rgba(226, 226, 226, 0.7),rgba(255, 255, 255, .2), rgba(13, 77, 160, 0.1), rgba(0, 0, 0, 0.1));
     z-index: 1; 
-}
-  
+} 
 .LogoSection1 {
     position: absolute;
     top: 50%; 
@@ -98,3 +101,4 @@ nav{
     width: 80dvw;
     height: 40dvh; 
 }
+    */

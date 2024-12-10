@@ -26,8 +26,10 @@ const Model: React.FC<ModelProps> = ({ url, scale, position }) => {
   }, [scene]);
 
   useEffect(() => {
+    // Corrigido para mover para a diagonal direita para baixo
     gsap.to(scene.position, {
-      x: position,
+      x: position,   // Movendo para a direita
+      y: -position +.5,  // Movendo para baixo (invertido para o eixo Y)
       duration: 2,
       ease: 'power3.out',
     });
@@ -46,16 +48,14 @@ const ModelViewer: React.FC = () => {
     const width = window.innerWidth;
 
     // Ajusta o tamanho do modelo 3D dinamicamente
-    const newScale = Math.max(1, Math.min(2, width / 800)); // Ajuste dinâmico entre 1 e 2
+    const newScale = Math.max(1, Math.min(2, width / 1500)); // Ajuste dinâmico entre 1 e 2
     setScale([newScale, newScale, newScale]);
 
     // Centraliza o modelo em telas menores que 500px
-    if (width <= 500) {
+    if (width <= 1180) {
       setPosition(0);
     } else if (width > 1150) {
-      setPosition(Math.min(scrollY / 2, 2.5)); // Ajusta para telas maiores
-    } else if (width <= 768) {
-      setPosition(Math.min(scrollY / 2, 1.5)); 
+      setPosition(Math.min(scrollY / 1, 2.1)); // Ajusta para telas maiores
     }
   };
 
@@ -65,12 +65,12 @@ const ModelViewer: React.FC = () => {
     setScrollY(window.scrollY);
     setTextVisible(window.scrollY > 5);
 
-    // Atualiza a posição do modelo apenas para telas maiores
+    // Atualiza a posição do modelo, agora movendo o modelo para a diagonal direita para baixo
     if (width > 500) {
       setPosition(Math.min(window.scrollY / 2, 2.5)); // Limita a 2.5
     } else if (width <= 500) {
       setPosition(0); // Centraliza em telas menores
-    } 
+    }
   };
 
   useEffect(() => {
@@ -94,14 +94,14 @@ const ModelViewer: React.FC = () => {
       gsap.to(canvasText, {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: .5,
         ease: 'power3.out',
       });
 
       // Aumentar a opacidade do fundo
       gsap.to(gradientOverlay, {
         opacity: 0.5,
-        duration: 1,
+        duration: .5,
         ease: 'power3.out',
       });
     } else {
@@ -109,14 +109,14 @@ const ModelViewer: React.FC = () => {
       gsap.to(canvasText, {
         y: '100%',
         opacity: 0,
-        duration: 1,
+        duration: .5,
         ease: 'power3.out',
       });
 
       // Reduzir a opacidade do fundo
       gsap.to(gradientOverlay, {
         opacity: 0.35,
-        duration: 1,
+        duration: .5,
         ease: 'power3.out',
       });
     }
@@ -136,7 +136,7 @@ const ModelViewer: React.FC = () => {
         gl={{ antialias: true }}
         onCreated={(state) => state.gl.setClearColor('#011124')}
       >
-        <ambientLight color="#A1C6C5" intensity={1} />
+        <ambientLight color="#A1C6C5" intensity={2} />
         <directionalLight position={[5, 5, 5]} intensity={3} color="#FF28C9" />
         <directionalLight position={[-5, 5, 5]} intensity={2} color="#6EEAE2" />
         <Model url="/models/scene.gltf" scale={scale} position={position} />

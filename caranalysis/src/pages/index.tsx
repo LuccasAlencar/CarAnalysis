@@ -1,15 +1,17 @@
+// src/paginas/index.tsx
 import React from 'react';
 import dynamic from 'next/dynamic';
-import RandomCard from '../components/teste';
-const ModelViewer = dynamic(() => import('../components/CarModel'), { ssr: false });
+import CardAleatorio from '../components/teste';
 
-const Home: React.FC = () => {
+const ModeloCarro = dynamic(() => import('../components/car_model'), { ssr: false });
+
+const Inicio: React.FC = () => {
   return (
     <div>
-      <ModelViewer />
-      <RandomCard/>
+      <ModeloCarro />
+      <CardAleatorio />
     </div>
   );
 };
 
-export default Home;
+export default Inicio;

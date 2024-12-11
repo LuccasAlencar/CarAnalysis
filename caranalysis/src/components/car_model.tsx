@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, useAnimations } from '@react-three/drei';
@@ -6,7 +8,7 @@ import gsap from 'gsap';
 type ModelProps = {
   url: string;
   scale: number[];
-  position: number;
+  position: number[];
 };
 
 const Model: React.FC<ModelProps> = ({ url, scale, position }) => {
@@ -26,11 +28,12 @@ const Model: React.FC<ModelProps> = ({ url, scale, position }) => {
   }, [scene]);
 
   useEffect(() => {
-    // Corrigido para mover para a diagonal direita para baixo
+    // Atualiza a posição do modelo dinamicamente
     gsap.to(scene.position, {
-      x: position,   // Movendo para a direita
-      y: -position +.5,  // Movendo para baixo (invertido para o eixo Y)
-      duration: 2,
+      x: position[0],
+      y: position[1],
+      z: position[2],
+      duration: 1,
       ease: 'power3.out',
     });
   }, [position, scene]);
@@ -39,9 +42,8 @@ const Model: React.FC<ModelProps> = ({ url, scale, position }) => {
 };
 
 const ModelViewer: React.FC = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [scale, setScale] = useState([2, 2, 2]);
-  const [position, setPosition] = useState(0); // Controla a posição do modelo
+  const [position, setPosition] = useState([0, .6, 0]); // Posição inicial do modelo
   const [textVisible, setTextVisible] = useState(false);
 
   const handleResize = () => {
@@ -51,25 +53,24 @@ const ModelViewer: React.FC = () => {
     const newScale = Math.max(1, Math.min(2, width / 1500)); // Ajuste dinâmico entre 1 e 2
     setScale([newScale, newScale, newScale]);
 
-    // Centraliza o modelo em telas menores que 500px
+    // Centraliza o modelo em telas menores que 1180px
     if (width <= 1180) {
-      setPosition(0);
-    } else if (width > 1150) {
-      setPosition(Math.min(scrollY / 1, 2.1)); // Ajusta para telas maiores
+      setPosition([0, 0, 0]); // Centraliza o modelo no eixo Y
     }
   };
 
   const handleScroll = () => {
     const width = window.innerWidth;
+    const scrollPos = window.scrollY;
 
-    setScrollY(window.scrollY);
-    setTextVisible(window.scrollY > 5);
+    setTextVisible(scrollPos > 5); // Atualiza a visibilidade
 
-    // Atualiza a posição do modelo, agora movendo o modelo para a diagonal direita para baixo
-    if (width > 500) {
-      setPosition(Math.min(window.scrollY / 2, 2.5)); // Limita a 2.5
-    } else if (width <= 500) {
-      setPosition(0); // Centraliza em telas menores
+    if (width > 1180) {
+      // Para telas maiores, move diagonalmente
+      setPosition([Math.min(scrollPos / 2, 1.7), -Math.min(scrollPos / 2, 1.6), 0]);
+    } else if (width <= 1180) {
+      // Para telas menores, move somente no eixo Y
+      setPosition([0, -Math.min(scrollPos / 5, .8), 0]);
     }
   };
 
@@ -81,51 +82,49 @@ const ModelViewer: React.FC = () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrollY]);
+  }, []);
 
   const fov = 20; // Mantém um valor fixo de fov
 
   useEffect(() => {
-    const canvasText = document.querySelector('.canvas-text');
-    const gradientOverlay = document.querySelector('.gradient-overlay');
+    const canvasText = document.querySelector('.canvas-texto');
+    const gradientOverlay = document.querySelector('.gradiente-sobreposicao');
 
-    if (textVisible) {
-      // Quando o texto estiver visível
-      gsap.to(canvasText, {
-        y: 0,
-        opacity: 1,
-        duration: .5,
-        ease: 'power3.out',
-      });
+    if (canvasText && gradientOverlay) {
+      if (textVisible) {
+        gsap.to(canvasText, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power3.out',
+        });
 
-      // Aumentar a opacidade do fundo
-      gsap.to(gradientOverlay, {
-        opacity: 0.5,
-        duration: .5,
-        ease: 'power3.out',
-      });
-    } else {
-      // Quando o texto não estiver visível
-      gsap.to(canvasText, {
-        y: '100%',
-        opacity: 0,
-        duration: .5,
-        ease: 'power3.out',
-      });
+        gsap.to(gradientOverlay, {
+          opacity: 0.5,
+          duration: 0.5,
+          ease: 'power3.out',
+        });
+      } else {
+        gsap.to(canvasText, {
+          y: '100%',
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power3.out',
+        });
 
-      // Reduzir a opacidade do fundo
-      gsap.to(gradientOverlay, {
-        opacity: 0.35,
-        duration: .5,
-        ease: 'power3.out',
-      });
+        gsap.to(gradientOverlay, {
+          opacity: 0.35,
+          duration: 0.5,
+          ease: 'power3.out',
+        });
+      }
     }
   }, [textVisible]);
 
   return (
-    <div className="model-viewer-container">
-      <div className="gradient-overlay"></div>
-      <div className={`canvas-text ${textVisible ? 'show' : ''}`}>
+    <div className="container-visualizador-modelo">
+      <div className="gradiente-sobreposicao"></div>
+      <div className={`canvas-texto ${textVisible ? 'show' : ''}`}>
         <h1>CAR ANALYSIS</h1>
         <p>O futuro do diagnóstico automotivo está aqui. Teste nossa IA hoje e cuide do seu carro com mais confiança!</p>
         <button>Teste agora!</button>
@@ -134,11 +133,11 @@ const ModelViewer: React.FC = () => {
         className="modelo"
         camera={{ position: [0, 5, 20], fov }}
         gl={{ antialias: true }}
-        onCreated={(state) => state.gl.setClearColor('#011124')}
       >
-        <ambientLight color="#A1C6C5" intensity={2} />
-        <directionalLight position={[5, 5, 5]} intensity={3} color="#FF28C9" />
-        <directionalLight position={[-5, 5, 5]} intensity={2} color="#6EEAE2" />
+        <ambientLight color="#A1C6C5" intensity={1} />
+        <directionalLight position={[3, 5, 5]} intensity={5} color="#FF28C9" />
+        <directionalLight position={[-5, 5, 5]} intensity={2.5} color="#6EEAE2" />
+        <directionalLight position={[-3, -15, 1]} intensity={25} color="#d84e4e" />
         <Model url="/models/scene.gltf" scale={scale} position={position} />
       </Canvas>
     </div>
@@ -146,3 +145,6 @@ const ModelViewer: React.FC = () => {
 };
 
 export default ModelViewer;
+
+
+

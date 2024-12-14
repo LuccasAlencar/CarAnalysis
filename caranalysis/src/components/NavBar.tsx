@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link href="/" className="logo">
           <Image src="/images/logo-car.svg" alt="Logo" width={210} height={50} />
         </Link>
-        <div className="items_nav">
+        <div className="items-nav">
           <ul>
             <li>
               <Link href="/">Início</Link>

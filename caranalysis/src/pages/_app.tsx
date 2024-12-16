@@ -1,14 +1,15 @@
 import { AppProps } from 'next/app';
+import { AuthProvider } from '../contexts/AuthContext';
 import Navbar from '../components/navbar'; 
 import '../styles/style.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     
-    <div>
+    <AuthProvider>
         <Navbar/>  
         <Component {...pageProps} />  
-    </div>
+    </AuthProvider>
   );
 }
 

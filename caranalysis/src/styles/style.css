@@ -34,89 +34,147 @@ body {
     color: var(--white);
     overflow-x: hidden;
 }
+
+
+
+
 /* Estilos gerais para o header */
 header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 10vh;
-    position: relative;
-    z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  position: relative;
+  z-index: 999;
 }
-/* Navbar fixa no topo */
+/* Navbar */
 .navbar {
-    position: fixed;
-    top: -10vh;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+  position: fixed;
+  top: -10vh;
+  left: 0;
+  width: 100%;
+  z-index: 999; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  backdrop-filter: blur(10px); 
+  background-color: rgba(1, 17, 36, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-/* Quando a navbar estiver visível */
 .navbar.visible {
-    top: 0; /* Fica fixada no topo */
-    opacity: 1;
+  top: 0;
+  opacity: 1;
 }
-/* Efeito de vidro (somente na página inicial) */
-.navbar.glass-effect {
-    backdrop-filter: blur(10px); /* Desfoque */
-    background-color: rgba(1, 17, 36, 0.7); /* Cor do fundo */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+.navbar.solid-effect {
+  background-color: rgba(1, 17, 36, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
-/* Navbar sólida para outras páginas */
 .navbar:not(.glass-effect) {
-    background-color: var(--dark-blue);
+  background-color: rgba(1, 17, 36, 0.7);
 }
 /* Estilos do conteúdo da navbar */
 nav {
-    width: 75%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
-.Logo {
-  padding-top: 0.5rem;
+/* Logo */
+.logo {
+  position: absolute; /* Usa position absolute para centralizar a logo */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.3s ease;
 }
 /* Itens de navegação */
 .items-nav {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Garante que os itens fiquem à direita quando em telas grandes */
 }
 .items-nav ul {
   display: flex;
   list-style: none;
 }
 .items-nav ul li a {
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-decoration: none;
-    color: var(--white);
-    padding-right: 1.2rem;
-    transition: color 0.3s;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--white);
+  padding-right: 1.2rem;
+  transition: color 0.3s;
 }
-.items-navul li a:hover {
-  color: var(--white-hover);
+/* Mobile Menu Icon */
+.mobile-menu-icon{
+  filter: invert(100%);
+  display: none;
+  position: absolute;
+  left: 10px; /* Posiciona o ícone do menu hambúrguer à esquerda */
+  top: 50%;
+  transform: translateY(-50%);
 }
-/* Botão de login */
-.login {
-    width: fit-content;
-    border-radius: 0.2rem;
-    border: none;
-    background-color: var(--white);
-    color: var(--dark-blue);
-    font-size: 1rem;
-    font-weight: 800;
-    cursor: pointer;
-    padding: 0.1rem 1rem;
-    transition: all 0.3s;
+.mobile-menu-icon button {
+  background-color: transparent; /* Garante fundo transparente */
+  border: none; /* Remove borda */
+  color: white; /* Cor do ícone */
+  font-size: 1.3rem;
+  cursor: pointer;
 }
-.login:hover {
-  background-color: var(--white-hover);
-  color: var(--black);
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--dark-blue);
+  opacity: .9;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(-100%); /* Inicialmente fora da tela */
 }
+.mobile-menu.open {
+  transform: translateY(0); /* Exibe o menu quando estiver aberto */
+}
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.mobile-menu ul li a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  position: relative;
+}
+.close-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.mobile-menu-icon button:hover,
+.close-menu:hover{
+  background: none; /* Garante que não haja efeito de fundo ao passar o cursor */
+  color: white; /* Garante que a cor não mude */
+  transform: scale(1.1); /* Garante que não haverá alteração de transformação */
+}
+
+
+
+
 /* Contêiner principal da visualização */
 .container-visualizador-modelo {
     display: flex;
@@ -634,16 +692,6 @@ nav {
   animation: rotateGradient 15s infinite linear;
 }
 
-
-
-
-
-
-
-
-
-
-
 /* Responsividade */
 @media (min-width: 1625px) {
   .secao-2-content-cards {
@@ -665,6 +713,28 @@ nav {
   }
 }
 @media (max-width: 1180px) {
+  nav {
+    width: 100%;
+    justify-content: flex-start; /* Faz a navbar ocupar toda a largura e alinhando os itens à esquerda */
+  }
+
+  .navbar{
+    width: 100%;
+  }
+
+  .logo {
+    position: absolute; /* A logo fica centralizada usando position absolute */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .mobile-menu-icon {
+    display: block; /* Exibe o ícone do menu hambúrguer */
+  }
+
+  .items-nav {
+    display: none; /* Esconde os itens de navegação quando o menu móvel está aberto */
+  }
   .canvas-texto {
       width: 100%;
       height: 120dvh;
@@ -737,7 +807,7 @@ nav {
       width: 90%;
     }
   }
-  @media (max-width: 1000px) {
+@media (max-width: 1000px) {
     .navbar {
       top: -10vh; /* Inicialmente invisível */
     }
@@ -746,7 +816,7 @@ nav {
       top: 0; /* Fixa no topo quando visível */
     }
   }
-  @media (max-width: 850px) {
+@media (max-width: 850px) {
     .canvas-texto h1, .canvas-texto p {
       width: 80%;
     }
@@ -762,29 +832,15 @@ nav {
       font-size: clamp(.8rem, 2.5vw, 2rem);
     }
   }
-  @media (min-width: 800px) {
+@media (min-width: 800px) {
     .secao-2-content-cards {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  @media (max-width: 769px) {
-    nav {
-      width: 90%;
-    }
-  
-    .items-nav ul li a {
-      font-size: 1rem;
-    }
-  
-    .login {
-      font-size: 0.9rem;
-      padding: 0.2rem 0.8rem;
-    }
-  
+@media (max-width: 769px) {  
     .canvas-texto {
       padding: 1rem;
     }
-  
     .canvas-texto h1, .canvas-texto p {
       text-align: left;
     }
@@ -800,12 +856,11 @@ nav {
     .secao-1-content-image{
       width: 100%;
     }
-
     .secao-2-content-cards{
       width: 90%;
     }
   }
-  @media (max-width: 500px) {
+@media (max-width: 500px) {
     .canvas-texto {
       padding: 1rem;
       height: 110dvh;
@@ -830,8 +885,16 @@ nav {
     .secao-2-content-cards{
       width: 100%;
     }
+
+    .mobile-menu{
+      background-color: var(--dark-blue);
+      opacity: .98;
+    }
+    .navbar:not(.glass-effect) {
+      background-color: rgb(1, 17, 36);
+    }
   }
-  @media (min-height: 321px) and (max-height: 450px){
+@media (min-height: 321px) and (max-height: 450px){
     .container-visualizador-modelo{
       max-height: 130dvh;
     }
@@ -843,7 +906,22 @@ nav {
       font-size: clamp(.8rem, 6vw, 2rem);
     }
   }
-  @media (max-height: 320px) {
+@media (min-width: 1180px) {
+    .logo {
+      position: static; /* No desktop a logo fica no layout normal */
+      transform: none;
+    }
+  
+    .mobile-menu-icon {
+      display: none; /* Esconde o ícone do menu hambúrguer no desktop */
+    }
+  
+    .items-nav {
+      display: flex;
+      margin-left: auto; /* Garante que os links fiquem à direita */
+    }
+  }
+@media (max-height: 320px) {
     .canvas-texto {
       height: auto;
     }
@@ -854,4 +932,198 @@ nav {
 
 
 
+
+
+
+
+
+  :root {
+    --color-bg1: 108, 0, 162;
+    --color-bg2: 0, 17, 82;
+    --color1: 18, 113, 255;
+    --color2: 221, 74, 255;
+    --color3: 100, 220, 255;
+    --color4: 200, 50, 50;
+    --color5: 180, 180, 50;
+    --color-interactive: 140, 100, 255;
+    --circle-size: 80%;
+    --blending: hard-light;
+  }
+  
+  @keyframes moveInCircle {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes moveVertical {
+    0% { transform: translateY(-50%); }
+    50% { transform: translateY(50%); }
+    100% { transform: translateY(-50%); }
+  }
+  
+  @keyframes moveHorizontal {
+    0% { transform: translateX(-50%) translateY(-10%); }
+    50% { transform: translateX(50%) translateY(10%); }
+    100% { transform: translateX(-50%) translateY(-10%); }
+  }
+  
+  .gradient-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(40deg, rgb(var(--color-bg1)), rgb(var(--color-bg2)));
+  }
+  
+  .gradient-bg {
+    position: absolute;
+    inset: 0;
+  }
+  
+  .gradient-bg svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .g1, .g2, .g3, .g4, .g5 {
+    position: absolute;
+    background-repeat: no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    opacity: 1;
+  }
+  
+  .g1 {
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%);
+    animation: moveVertical 30s ease infinite;
+  }
+  
+  .g2 {
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%);
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+  }
+  
+  .g3 {
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%);
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+  }
+  
+  .g4 {
+    background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%);
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+    opacity: 0.7;
+  }
+  
+  .g5 {
+    background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%);
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+  }
+  
+  .interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+    opacity: 0.7;
+  }
+  
+  .chat-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 600px;
+    padding-top: 10dvh;
+    margin: 0 auto;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  
+  .messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+  }
+  
+  .message {
+    padding: 10px 14px;
+    border-radius: 20px;
+    max-width: 75%;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    background-color: rgba(0, 120, 212, 0.8);
+    color: white;
+  }
+  
+  .bot-message {
+    align-self: flex-start;
+    background-color: rgba(228, 230, 235, 0.6);
+    color: black;
+  }
+  
+  .input-container {
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    background-color: rgba(240, 240, 240, 0.1);
+    backdrop-filter: blur(10px);
+  }
+  
+  .input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 0.5rem;
+    margin-right: 8px;
+    outline: none;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+  }
+  
+  .input-container button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  
 
